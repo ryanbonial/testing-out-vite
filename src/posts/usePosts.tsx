@@ -2,12 +2,10 @@ import { useCallback, useEffect, useState } from "react";
 import { Post } from "./Post";
 
 export function usePosts(): [Post[], (post: Post) => Promise<Post>, (post: Post) => Promise<Post>, (postId: number) => Promise<void>] {
-  const [posts, setPosts]: [
-    posts: Post[],
-    React.Dispatch<React.SetStateAction<Post[]>>
-  ] = useState([] as Post[]);
+  const [posts, setPosts] = useState<Post[]>([]);
 
   const createPost = async (post: Post): Promise<Post> => {
+
     const postResp = await fetch("http://localhost:3000/posts", {
       method: "POST",
       headers: {
@@ -19,6 +17,7 @@ export function usePosts(): [Post[], (post: Post) => Promise<Post>, (post: Post)
     setPosts((posts: Post[]) => [...posts, postJson]);
     return postJson;
   };
+
 
   const updatePost = async (post: Post): Promise<Post> => {
     const postResp = await fetch(`http://localhost:3000/posts/${post.id}`, {
