@@ -17,7 +17,6 @@ export function usePosts() {
     return postJson;
   };
 
-
   const updatePost = async (post: Post) => {
     const postResp = await fetch(`http://localhost:3000/posts/${post.id}`, {
       method: "PUT",
@@ -31,18 +30,16 @@ export function usePosts() {
       posts.map((p) => (p.id === postJson.id ? postJson : p))
     );
     return postJson;
-  }
+  };
 
   const deletePost = async (postId: number) => {
     const postResp = await fetch(`http://localhost:3000/posts/${postId}`, {
       method: "DELETE",
     });
     await postResp.json();
-    setPosts((posts) =>
-      posts.filter((p) => p.id !== postId)
-    );
+    setPosts((posts) => posts.filter((p) => p.id !== postId));
     return;
-  }
+  };
 
   const fetchPosts = useCallback(async () => {
     const postResp = await fetch("http://localhost:3000/posts");
@@ -55,5 +52,5 @@ export function usePosts() {
     fetchPosts();
   }, [fetchPosts]);
 
-  return [posts, createPost, updatePost, deletePost];
+  return { posts, createPost, updatePost, deletePost };
 }

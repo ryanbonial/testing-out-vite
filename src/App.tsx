@@ -2,7 +2,7 @@ import "./App.css";
 import { usePosts } from "./posts/usePosts";
 
 function App() {
-  const [posts, createPost, updatePost, deletePost] = usePosts();
+  const { posts, createPost, deletePost } = usePosts();
 
   return (
     <div>
