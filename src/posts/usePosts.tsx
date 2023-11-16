@@ -1,11 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
 import { Post } from "./Post";
 
-export function usePosts(): [Post[], (post: Post) => Promise<Post>, (post: Post) => Promise<Post>, (postId: number) => Promise<void>] {
+export function usePosts() {
   const [posts, setPosts] = useState<Post[]>([]);
 
-  const createPost = async (post: Post): Promise<Post> => {
-
+  const createPost = async (post: Post) => {
     const postResp = await fetch("http://localhost:3000/posts", {
       method: "POST",
       headers: {
@@ -14,12 +13,12 @@ export function usePosts(): [Post[], (post: Post) => Promise<Post>, (post: Post)
       body: JSON.stringify(post),
     });
     const postJson: Post = await postResp.json();
-    setPosts((posts: Post[]) => [...posts, postJson]);
+    setPosts((posts) => [...posts, postJson]);
     return postJson;
   };
 
 
-  const updatePost = async (post: Post): Promise<Post> => {
+  const updatePost = async (post: Post) => {
     const postResp = await fetch(`http://localhost:3000/posts/${post.id}`, {
       method: "PUT",
       headers: {
@@ -28,7 +27,7 @@ export function usePosts(): [Post[], (post: Post) => Promise<Post>, (post: Post)
       body: JSON.stringify(post),
     });
     const postJson: Post = await postResp.json();
-    setPosts((posts: Post[]) =>
+    setPosts((posts) =>
       posts.map((p) => (p.id === postJson.id ? postJson : p))
     );
     return postJson;
@@ -39,7 +38,7 @@ export function usePosts(): [Post[], (post: Post) => Promise<Post>, (post: Post)
       method: "DELETE",
     });
     await postResp.json();
-    setPosts((posts: Post[]) =>
+    setPosts((posts) =>
       posts.filter((p) => p.id !== postId)
     );
     return;
